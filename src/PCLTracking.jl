@@ -55,11 +55,11 @@ for name in [
     :ParticleXYRP,
     :ParticleXYR,
     ]
-    refname = symbol(name, :Ref)
-    valorref = symbol(name, :ValOrRef)
+    refname = Symbol(name, :Ref)
+    valorref = Symbol(name, :ValOrRef)
     cppname = string("pcl::tracking::", name)
-    cxxtdef = Expr(:macrocall, symbol("@cxxt_str"), cppname);
-    rcppdef = Expr(:macrocall, symbol("@rcpp_str"), cppname);
+    cxxtdef = Expr(:macrocall, Symbol("@cxxt_str"), cppname);
+    rcppdef = Expr(:macrocall, Symbol("@rcpp_str"), cppname);
 
     @eval begin
         global const $name = $cxxtdef
@@ -68,7 +68,7 @@ for name in [
     end
 
     # no args constructor
-    body = Expr(:macrocall, symbol("@icxx_str"), string(cppname, "();"))
+    body = Expr(:macrocall, Symbol("@icxx_str"), string(cppname, "();"))
     @eval (::Type{$name})() = $body
 end
 
@@ -83,7 +83,7 @@ for (name, type_params, supername) in [
     ]
     cxxname = "pcl::tracking::$name"
     name_with_params = Expr(:curly, name, type_params...)
-    valname_with_params = Expr(:curly, symbol(name, "Val"), type_params...)
+    valname_with_params = Expr(:curly, Symbol(name, "Val"), type_params...)
     @eval begin
         @defpcltype $name_with_params <: $supername $cxxname
         @defptrconstructor $name_with_params() $cxxname
@@ -114,14 +114,14 @@ for f in [
         :setBinSize,
         :toEigenMatrix,
         ]
-    body = Expr(:macrocall, symbol("@icxx_str"), "\$(t.handle)->$f(\$v);")
+    body = Expr(:macrocall, Symbol("@icxx_str"), "\$(t.handle)->$f(\$v);")
     @eval $f(t::AbstractKLDAdaptiveParticleFilterTracker, v) = $body
 end
 
 for f in [
         :getResult,
         ]
-    body = Expr(:macrocall, symbol("@icxx_str"), "\$(t.handle)->$f();")
+    body = Expr(:macrocall, Symbol("@icxx_str"), "\$(t.handle)->$f();")
     @eval $f(t::AbstractKLDAdaptiveParticleFilterTracker) = $body
 end
 
@@ -150,7 +150,7 @@ for f in [
         :setSearchMethod,
         :setMaximumDistance,
         ]
-    body = Expr(:macrocall, symbol("@icxx_str"), "\$(c.handle)->$f(\$v);")
+    body = Expr(:macrocall, Symbol("@icxx_str"), "\$(c.handle)->$f(\$v);")
     @eval $f(c::AbstractCloudCoherence, v) = $body
 end
 
@@ -165,7 +165,7 @@ setSearchMethod(c::AbstractCloudCoherence, t::PCLSearch.Search) =
 for f in [
         :setWeight,
         ]
-    body = Expr(:macrocall, symbol("@icxx_str"), "\$(t.c.handle)->$f(\$v);")
+    body = Expr(:macrocall, Symbol("@icxx_str"), "\$(t.c.handle)->$f(\$v);")
     @eval $f(t::AbstractCoherence, v) = $body
 end
 
