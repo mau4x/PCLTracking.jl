@@ -62,7 +62,9 @@ for name in [
     rcppdef = Expr(:macrocall, Symbol("@rcpp_str"), cppname);
 
     @eval begin
-        global const $name = $cxxtdef
+        @doc """
+        $($cppname)
+        """ global const $name = $cxxtdef
         global const $refname = $rcppdef
         global const $valorref = Union{$name, $refname}
     end
