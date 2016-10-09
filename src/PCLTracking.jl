@@ -1,3 +1,10 @@
+"""
+3D object tracknig
+
+## Exports
+
+$(EXPORTS)
+"""
 module PCLTracking
 
 export AbstractTracker, AbstractCloudCoherence, AbstractCoherence, compute,
@@ -12,6 +19,7 @@ export AbstractTracker, AbstractCloudCoherence, AbstractCoherence, compute,
     getResult,
     addPointCoherence, setSearchMethod, setMaximumDistance, setWeight
 
+using DocStringExtensions
 using LibPCL
 using PCLCommon
 using PCLSearch
