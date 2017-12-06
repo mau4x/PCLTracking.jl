@@ -48,11 +48,11 @@ cxx"""
 #include <pcl/tracking/tracking.h>
 """
 
-abstract AbstractTracker
-abstract AbstractCloudCoherence
-abstract AbstractCoherence
+abstract type AbstractTracker end
+abstract type AbstractCloudCoherence end
+abstract type AbstractCoherence end
 
-abstract AbstractKLDAdaptiveParticleFilterTracker <: AbstractTracker
+abstract type AbstractKLDAdaptiveParticleFilterTracker <: AbstractTracker end
 
 compute(t::AbstractTracker) = icxx"$(t.handle)->compute();"
 
